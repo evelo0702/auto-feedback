@@ -37,12 +37,18 @@ export default async function Home() {
         </div>
 
         <div className="flex h-1/4 justify-center items-center text-xl">
-          <div className="flex justify-center items-center">
-            FAQ와 공지사항으로 궁금한점이 해결이 안되셨다면
-            <Link href={"/contact"} className="mx-2 text-5xl ">
-              Contact
-            </Link>
-            를 통해 문의해주세요
+          <div className="flex flex-col justify-center items-center">
+            <div className="text-base">
+              홈화면에서는 공지사항과 FAQS 중 일부만 제공됩니다 더 많은 정보를
+              원하시면 상단에서 해당 탭을 선택해주세요
+            </div>
+            <div>
+              FAQ와 공지사항으로 궁금한점이 해결이 안되셨다면
+              <Link href={"/contact"} className="mx-2 text-5xl ">
+                Contact
+              </Link>
+              를 통해 문의해주세요
+            </div>
           </div>
         </div>
       </div>
