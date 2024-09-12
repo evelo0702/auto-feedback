@@ -4,7 +4,7 @@ export async function getNoticeData(): Promise<Notices[]> {
   let url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/notice`;
 
   try {
-    let res = await fetch(url);
+    let res = await fetch(url, { cache: "no-store" });
     if (res.ok) {
       return res.json();
     } else {
