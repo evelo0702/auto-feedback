@@ -40,3 +40,10 @@ export const categoryCode = [
     eng: "GameRulesAndPolicies",
   },
 ];
+
+export const getCategoryName = (CodeId: number) => {
+  const categoryName = categoryCode.find((i) => i.id === CodeId);
+  if (categoryName) {
+    return { eng: categoryName.eng, kor: categoryName.kor };
+  }
+};
