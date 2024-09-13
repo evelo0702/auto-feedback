@@ -2,16 +2,13 @@ import FaqListCard from "@/components/faq-list-card";
 import NoticeList from "@/components/notice-list";
 import { getFaqData } from "@/lib/getFaqData";
 import { getNoticeData } from "@/lib/getNoticeData";
-import { Faqs } from "@/types/type";
+import { Faqs, Notices } from "@/types/type";
 import Link from "next/link";
-import ShowHomeFaQData from "./utils/faqfilter";
-import ShowHomeNoticeData from "./utils/noticefilter";
 
 export default async function Home() {
-  // FaQ 데이터중에 각 카테고리별로 한개씩만 필터링해주는 메소드
-
-  const notices = await getNoticeData();
-  const faqs = await getFaqData();
+  const notices: Notices[] = await getNoticeData("HOME");
+  const faqs: Faqs[] = await getFaqData("HOME");
+  faqs.sort((a, b) => a.category_code - b.category_code);
   return (
     <>
       <div className="h-full flex flex-col">
@@ -20,7 +17,7 @@ export default async function Home() {
             <div className="flex justify-center text-xl font-normal my-3">
               <p>공지사항</p>
             </div>
-            {ShowHomeNoticeData(notices).map((item) => (
+            {notices.map((item) => (
               <NoticeList key={item.id} {...item} />
             ))}
           </div>
@@ -29,7 +26,7 @@ export default async function Home() {
               <p>궁금한게 있으시다면 FAQ를 먼저 확인해주세요!</p>
             </div>
             <div className="flex flex-col flex-1">
-              {ShowHomeFaQData(faqs).map((item) => (
+              {faqs.map((item) => (
                 <FaqListCard {...item} key={item.id} />
               ))}
             </div>
