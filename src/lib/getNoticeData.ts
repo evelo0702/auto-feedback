@@ -1,7 +1,12 @@
 import { Notices } from "@/types/type";
 
-export async function getNoticeData(): Promise<Notices[]> {
-  let url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/notice`;
+export async function getNoticeData(used: string | null): Promise<Notices[]> {
+  let url;
+  if (used === "HOME") {
+    url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/notice?used=HOME`;
+  } else {
+    url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/notice`;
+  }
 
   try {
     let res = await fetch(url, { cache: "no-store" });

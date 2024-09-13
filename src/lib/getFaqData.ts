@@ -1,7 +1,12 @@
 import { Faqs } from "@/types/type";
 
-export async function getFaqData(): Promise<Faqs[]> {
-  let url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/faqs`;
+export async function getFaqData(mode: string | ""): Promise<Faqs[]> {
+  let url;
+  if (mode === "HOME") {
+    url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/faqs/home`;
+  } else {
+    url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/faqs`;
+  }
 
   try {
     let res = await fetch(url, { cache: "no-store" });
