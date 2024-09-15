@@ -16,7 +16,7 @@ const NoticePagination = ({ data }: { data: Notices[] }) => {
     sliceData(pageNum);
   }, [pageNum]);
   return (
-    <div className="relative">
+    <div className="relative mt-4">
       <div className="h-[65vh]">
         {noticeData.map((i) => (
           <div key={i.id}>
