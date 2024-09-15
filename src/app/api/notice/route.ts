@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/app/utils/database";
+import { getCategoryName } from "@/app/utils/categoryCode";
 
 // GET 요청 처리
 export async function GET(req: Request) {
@@ -13,7 +14,11 @@ export async function GET(req: Request) {
     } else {
       data = await db.collection("notices").find().toArray();
     }
-    return NextResponse.json(data);
+    const addNameNotice = data.map((i) => ({
+      ...i,
+      category_name: getCategoryName(i.category_code),
+    }));
+    return NextResponse.json(addNameNotice);
   } catch (error) {
     console.error("Error fetching data:", error);
     return NextResponse.json(
