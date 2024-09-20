@@ -13,7 +13,7 @@ export async function getFaqData(mode: string | ""): Promise<Faqs[]> {
     if (res.ok) {
       return res.json();
     } else {
-      throw new Error("Network response was not ok");
+      throw new Error("Faq Network response was not ok");
     }
   } catch (err) {
     console.error(err);
