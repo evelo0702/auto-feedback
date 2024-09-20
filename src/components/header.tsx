@@ -5,7 +5,14 @@ const Header = () => {
   return (
     <div className="flex h-7vh items-center text-xl font-semibold">
       <Link href={"/"}>
-        <Image src="/logo.png" alt="logo" width={80} height={80} className="" />
+        <Image
+          src="/logo.png"
+          priority
+          alt="logo"
+          width={80}
+          height={80}
+          className=""
+        />
       </Link>
       <Link href={"/faqs"} className="mx-6">
         FAQS
@@ -15,6 +22,9 @@ const Header = () => {
       </Link>
       <Link href={"/contact"} className="mx-6">
         Contact
+      </Link>
+      <Link href={"/register"} className="mx-6">
+        Register
       </Link>
     </div>
   );
