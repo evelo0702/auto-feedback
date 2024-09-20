@@ -40,7 +40,7 @@ export const SendEmail = async (
     const content = data.choices[0]?.message.content;
     const cleanedContent = content.replace(/```json|```|```/g, "").trim();
     let emailData = JSON.parse(cleanedContent);
-    console.log(emailData);
+
     if (emailData.length > 0) {
       msg = `문의사항 데이터 배열인 ${JSON.stringify(
         emailData
@@ -56,7 +56,6 @@ export const SendEmail = async (
       관련성이 없다면 빈 배열을 반환해 주세요.
       해당 비교 방식을 활용해 2,3차례 이상 정확한 데이터처리가 됐는지 확인해주세요
       `;
-      console.log(msg);
       try {
         const res = await fetch("/api/openai", {
           method: "POST",
@@ -72,7 +71,6 @@ export const SendEmail = async (
         const content = data.choices[0]?.message.content;
         const cleanedContent = content.replace(/```json|```|```/g, "").trim();
         let emailData = JSON.parse(cleanedContent);
-        console.log(emailData);
         if (emailData.length > 0) {
           for (let i = 0; i < emailData.length; i++) {
             Email(emailData[i].email, emailData[i].text, newData);
