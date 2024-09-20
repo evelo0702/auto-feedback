@@ -62,7 +62,7 @@ const FaqList = ({ categoryCode, sortData }: FaqListProps) => {
               {i.kor} ({i.eng})
             </p>
             {sortData[i.eng].map((item: Faqs) => (
-              <div key={item.id} className="border-2 rounded-lg mb-4 p-2">
+              <div key={item._id} className="border-2 rounded-lg mb-4 p-2">
                 <div>Q: {item.content.question}</div>
                 <div>A: {item.content.answer}</div>
               </div>
