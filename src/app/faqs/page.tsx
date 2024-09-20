@@ -1,4 +1,3 @@
-
 import { getFaqData } from "@/lib/getFaqData";
 import SortCategory from "../utils/sortCategory";
 import { categoryCode } from "../utils/categoryCode";

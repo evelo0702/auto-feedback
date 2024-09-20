@@ -1,3 +1,4 @@
+
 import FaqListCard from "@/components/faq-list-card";
 import NoticeList from "@/components/notice-list";
 import { getFaqData } from "@/lib/getFaqData";
@@ -33,7 +34,7 @@ export default async function Home() {
           </div>
         </div>
 
-        <div className="flex h-1/4 justify-center items-center text-xl">
+        <div className="flex h-1/5 justify-center items-center text-xl">
           <div className="flex flex-col justify-center items-center">
             <div className="text-base">
               홈화면에서는 공지사항과 FAQS 중 일부만 제공됩니다 더 많은 정보를
