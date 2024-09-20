@@ -24,7 +24,6 @@ export const SendEmail = async (
   관련성이 없다면 빈 배열을 반환해 주세요.
   해당 비교 방식을 활용해 2,3차례 이상 정확한 데이터처리가 됐는지 확인해주세요
   `;
-  console.log(msg);
   try {
     const res = await fetch("/api/openai", {
       method: "POST",
