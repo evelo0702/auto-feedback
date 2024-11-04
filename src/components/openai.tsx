@@ -46,7 +46,6 @@ const OpenAi = () => {
       const content = data.choices[0]?.message.content;
       const cleanedContent = content.replace(/```json|```|```/g, "").trim();
       let parsedData = JSON.parse(cleanedContent || "[]");
-      console.log(parsedData);
       setMode("DONE");
       if (Array.isArray(parsedData) && parsedData.length > 0) {
         setRes(parsedData);
