@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import style from "./layout.module.css";
 import Header from "@/components/header";
-import { Dongle as DongleFont } from "next/font/google";
+import { Dongle } from "next/font/google";
 
-const dongleFont = DongleFont({
+const dongleFont = Dongle({
   subsets: ["latin"],
   weight: ["400", "700"],
 });

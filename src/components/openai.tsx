@@ -1,7 +1,7 @@
 "use client";
 import { categoryCode } from "@/app/utils/categoryCode";
 import { getContactData } from "@/lib/getContactData";
-import { Openai } from "@/types/type";
+import { Openai, totalData } from "@/types/type";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import FaqListCard from "./faq-list-card";
@@ -13,6 +13,7 @@ const OpenAi = () => {
     category: "",
     text: "",
   });
+  const [totalData, setData] = useState([]);
   const [comment, setComment] = useState(
     `문의사항과 연관있는 게시글을 찾아드립니다`
   );
@@ -23,6 +24,7 @@ const OpenAi = () => {
     date: "",
   });
   const [chatMode, setMode] = useState("WAIT");
+
   const handleSubmit = async (msg: string, qes: string) => {
     setMode("LOADING");
     setComment("문의사항과 연관있는 데이터를 DB에서 검색중입니다");
@@ -44,26 +46,7 @@ const OpenAi = () => {
       const content = data.choices[0]?.message.content;
       const cleanedContent = content.replace(/```json|```|```/g, "").trim();
       let parsedData = JSON.parse(cleanedContent || "[]");
-
-      // 한번의 요청으론 데이터가 부정확한 경우가 많아서 2차 요청으로 재검증하는 과정
-      if (parsedData.length > 0) {
-        const secondMsg = `"데이터:${cleanedContent}" 해당 데이터중 ${qes}하고 조금이라도 연관된 내용이있다면 해당 데이터를 모두 반환해주고
-     "데이터"가 빈값이거나 연관이 없다면 빈배열을 반환해줘 `;
-
-        const secondRes = await fetch("/api/openai", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ message: secondMsg }),
-        });
-        const data2 = await secondRes.json();
-        const content2 = data2.choices[0]?.message.content
-          .replace(/```json|```|```/g, "")
-          .trim();
-
-        parsedData = JSON.parse(content2 || "[]");
-      }
+      console.log(parsedData);
       setMode("DONE");
       if (Array.isArray(parsedData) && parsedData.length > 0) {
         setRes(parsedData);
@@ -82,6 +65,13 @@ const OpenAi = () => {
       setComment(`DB로 데이터를 요청중에 Error가 발생했습니다 재시도해주세요`);
     }
   };
+  const getData = async () => {
+    const data = await getContactData();
+    setData(data);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
 
   const sendQ = async () => {
     setSaveQuestion({
@@ -90,29 +80,45 @@ const OpenAi = () => {
       email: "",
       date: "",
     });
+    let data = totalData.filter(
+      (i: totalData) => i.category_code === Number(question.category)
+    );
+    const extractedData = data.map(({ type, id, content, title }) => ({
+      type,
+      id,
+      content,
+      title,
+    }));
 
     if (question.category && question.text) {
-      const data = await getContactData(question.category);
-      const newMsg = `"데이터:${JSON.stringify(data)}" 다음 데이터들 중에서 ${
+      // api에 보낼 질문양식
+      const newMsg = `"데이터:${JSON.stringify(
+        extractedData
+      )}" 다음 데이터들 중에서 ${
         question.text
-      }하고 관련된 모든 데이터를 찾고 싶습니다. 연관이 있는지 여러번 확인해주세요
+      }하고 관련된 모든 데이터를 찾고 싶습니다.
       연관이있는 근거가있는 데이터만 반환해주세요
       반환된 데이터는 배열안에 아래 형식으로 객체를 넣어서 제공해 주세요:
-      newId: 0부터 시작하여 연속적으로 증가하는 숫자
+      newId: 객체 순서대로 0부터 1씩 증가해서 할당해주세요(절대 중복되지않게)
       type: 객체의 type 값이 FAQS인 경우 "faqs", 공지사항인 경우 "notice"
-      id: 객체의 id
-      category_code: 객체의 category_code
+      id: 객체의 id      
       만약 객체의 type이 FAQS인 경우, content 객체에 question과 answer 값을 포함
       만약 객체의 type이 notice인 경우, title 값 포함
-      연관된 데이터가 없을 경우, 빈 배열을 반환해 주세요 그리고 배열외 아무런 코멘트 없이 배열만 반환해주세요`;
+      연관된 데이터가 없을 경우, 아무런 코멘트 없이 빈 배열만 반환해 주세요`;
 
+      // open ai api 요청
       handleSubmit(newMsg, question.text);
       setQuestion({
         category: "",
         text: "",
       });
+    } else {
+      Number(question.category) == 0
+        ? alert("카테고리를 선택해주세요")
+        : alert("문의내용을 작성해주세요");
     }
   };
+
   const saveDB = () => {
     let data = {
       ...saveQuestion,

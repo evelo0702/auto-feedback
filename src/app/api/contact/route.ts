@@ -1,21 +1,20 @@
+
 import { getCategoryName } from "@/app/utils/categoryCode";
 import { connectDB } from "@/app/utils/database";
 import { Faqs, Notices } from "@/types/type";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const code = url.searchParams.get("code");
   try {
     const db = (await connectDB).db("auto-feedback");
 
     let faqsData = await db
       .collection("faqs")
-      .find({ category_code: Number(code) })
+      .find()
       .toArray();
     let noticesData = await db
       .collection("notices")
-      .find({ category_code: Number(code) })
+      .find()
       .toArray();
     const fixFaqsData = faqsData.map((i) => ({
       ...i,

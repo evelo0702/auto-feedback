@@ -38,3 +38,17 @@ export interface Services {
   email: string;
   date: string;
 }
+
+export interface totalData {
+  _id: string;
+  category_code: number;
+  category_name: {
+    eng: string;
+    kor: string;
+  };
+  content: string;
+  date?: string;
+  id: number;
+  title?: string;
+  type: string;
+}

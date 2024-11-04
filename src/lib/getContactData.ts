@@ -1,5 +1,5 @@
-export const getContactData = async (categoryCode: string) => {
-  let url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/contact?code=${categoryCode}`;
+export const getContactData = async () => {
+  let url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/api/contact`;
   try {
     let res = await fetch(url, { cache: "no-store" });
     if (res.ok) {

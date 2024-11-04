@@ -1,4 +1,3 @@
-
 import FaqListCard from "@/components/faq-list-card";
 import NoticeList from "@/components/notice-list";
 import { getFaqData } from "@/lib/getFaqData";
@@ -10,6 +9,7 @@ export default async function Home() {
   const notices: Notices[] = await getNoticeData("HOME");
   const faqs: Faqs[] = await getFaqData("HOME");
   faqs.sort((a, b) => a.category_code - b.category_code);
+
   return (
     <>
       <div className="h-full flex flex-col">
@@ -50,6 +50,7 @@ export default async function Home() {
           </div>
         </div>
       </div>
+      {/* 로컬 스토리지 저장을 위한 컴포넌트  */}
     </>
   );
 }
